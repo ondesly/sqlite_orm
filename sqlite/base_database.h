@@ -31,7 +31,7 @@ namespace sqlite {
 
             //
 
-            for (int i = 0; i < m_fields.size(); ++i) {
+            for (size_t i = 0; i < m_fields.size(); ++i) {
                 const auto &f = m_fields[i];
                 m_all_fields += f.get_name();
                 m_all_fields += ",";
@@ -44,7 +44,7 @@ namespace sqlite {
             m_all_fields_with_types += id.get_name();
             m_all_fields_with_types += " integer primary key";
 
-            for (int i = 1; i < m_fields.size(); ++i) {
+            for (size_t i = 1; i < m_fields.size(); ++i) {
                 const auto &f = m_fields[i];
                 m_all_fields_with_types += ", ";
                 m_all_fields_with_types += f.get_name();
@@ -151,7 +151,7 @@ namespace sqlite {
         }
 
         void write_values(const std::shared_ptr<T> object) {
-            for (int i = 1; i < m_fields.size(); ++i) {
+            for (size_t i = 1; i < m_fields.size(); ++i) {
                 const auto &f = m_fields[i];
 
                 m_query << ',';
