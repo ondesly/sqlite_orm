@@ -7,6 +7,7 @@
 
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -58,6 +59,16 @@ namespace sqlite {
         }
 
     public:
+
+        // Locks
+
+        void lock() {
+            m_mutex.lock();
+        }
+
+        void unlock() {
+            m_mutex.unlock();
+        }
 
         // Pointers
 
@@ -318,6 +329,8 @@ namespace sqlite {
     private:
 
         command m_active_command = NONE;
+
+        std::mutex m_mutex;
 
     };
 

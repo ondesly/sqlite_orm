@@ -89,13 +89,13 @@ namespace sqlite {
         }
 
         auto find(int T::* const pointer) {
-            return std::find_if(m_fields.begin(), m_fields.end(), [pointer](const column <T> &a) {
+            return std::find_if(m_fields.begin(), m_fields.end(), [pointer](const column<T> &a) {
                 return a.equals(pointer);
             });
         }
 
         auto find(std::string T::* const pointer) {
-            return std::find_if(m_fields.begin(), m_fields.end(), [pointer](const column <T> &a) {
+            return std::find_if(m_fields.begin(), m_fields.end(), [pointer](const column<T> &a) {
                 return a.equals(pointer);
             });
         }
