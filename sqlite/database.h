@@ -19,6 +19,23 @@
 
 namespace sqlite {
 
+    class locker {
+    public:
+
+        static void lock(bool value) {
+            static std::mutex mutex;
+
+            if (value) {
+                mutex.lock();
+            } else {
+                mutex.unlock();
+            }
+        }
+
+    };
+
+    //
+
     typedef unsigned short command;
 
     static const command NONE = 0;
@@ -63,11 +80,11 @@ namespace sqlite {
         // Locks
 
         void lock() {
-            m_mutex.lock();
+            locker::lock(true);
         }
 
         void unlock() {
-            m_mutex.unlock();
+            locker::lock(false);
         }
 
         // Pointers
@@ -329,8 +346,6 @@ namespace sqlite {
     private:
 
         command m_active_command = NONE;
-
-        std::mutex m_mutex;
 
     };
 
