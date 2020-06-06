@@ -19,20 +19,17 @@
 
 namespace sqlite {
 
-    class locker {
+    class mutex_holder {
     public:
 
-        static void lock(bool value) {
+        static std::mutex &get() {
             static std::mutex mutex;
-
-            if (value) {
-                mutex.lock();
-            } else {
-                mutex.unlock();
-            }
+            return mutex;
         }
 
     };
+
+    using lock = std::lock_guard<std::mutex>;
 
     //
 
@@ -77,14 +74,10 @@ namespace sqlite {
 
     public:
 
-        // Locks
+        // Mutex
 
-        void lock() {
-            locker::lock(true);
-        }
-
-        void unlock() {
-            locker::lock(false);
+        operator std::mutex &() const {
+            return mutex_holder::get();
         }
 
         // Pointers
