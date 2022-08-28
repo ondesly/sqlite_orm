@@ -1,6 +1,9 @@
 //
-// Created by ondesly on 2019-05-22.
-// Copyright (c) 2019 ondesly. All rights reserved.
+//  base_database.h
+//  sqlite_orm
+//
+//  Created by Dmitrii Torkhov <dmitriitorkhov@gmail.com> on 22.05.2019.
+//  Copyright © 2019-2022 Dmitrii Torkhov. All rights reserved.
 //
 
 #pragma once

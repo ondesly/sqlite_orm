@@ -12,6 +12,21 @@ project(sqlite
         VERSION 1.0.0
         LANGUAGES C CXX)
 
+################
+# Dependencies #
+################
+
+include(FetchContent)
+
+FetchContent_Declare(
+        sqlite
+        GIT_REPOSITORY https://github.com/azadkuh/sqlite-amalgamation.git
+        GIT_TAG v3.8.10.2
+        GIT_SHALLOW TRUE
+        GIT_PROGRESS TRUE)
+
+FetchContent_MakeAvailable(sqlite)
+
 #########
 # Build #
 #########
