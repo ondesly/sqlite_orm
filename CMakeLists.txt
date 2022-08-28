@@ -8,7 +8,7 @@
 
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(sqlite
+project(sqlite_orm
         VERSION 1.1.0
         LANGUAGES C CXX)
 
