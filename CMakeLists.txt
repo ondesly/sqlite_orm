@@ -32,3 +32,13 @@ FetchContent_MakeAvailable(sqlite)
 #########
 
 add_subdirectory(src)
+
+###########
+# Testing #
+###########
+
+enable_testing()
+
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+    add_subdirectory(tests)
+endif ()
