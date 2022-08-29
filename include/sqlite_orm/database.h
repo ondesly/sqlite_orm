@@ -65,13 +65,19 @@ namespace sqlite {
 
     public:
 
-        static std::shared_ptr<sqlite::database<T>> create(sqlite3 *const db) {
-            return std::make_shared<sqlite::database<T>>(db);
+        static std::shared_ptr<sqlite::database<T>>
+        open_read_only(const std::string &path, const std::string &vfs_name = {}) {
+            return open(path, SQLITE_OPEN_READONLY, vfs_name);
+        }
+
+        static std::shared_ptr<sqlite::database<T>>
+        open(const std::string &path, const std::string &vfs_name = {}) {
+            return open(path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, vfs_name);
         }
 
     public:
 
-        database(sqlite3 *const db) : base(db) {
+        explicit database(sqlite3 *const db) : base(db) {
 
         }
 
@@ -262,7 +268,7 @@ namespace sqlite {
         database &operator<<(const std::unordered_set<int> &values) {
             base::m_query << "(";
             size_t counter = 0;
-            for (int value : values) {
+            for (int value: values) {
                 base::m_query << value;
 
                 if (counter != values.size() - 1) {
@@ -342,6 +348,22 @@ namespace sqlite {
     private:
 
         command m_active_command = NONE;
+
+    private:
+
+        static std::shared_ptr<sqlite::database<T>>
+        open(const std::string &path, int flags, const std::string &vfs_name) {
+            static std::unordered_map<std::string, sqlite3 *> m_dbs;
+
+            sqlite3 *db = m_dbs[path];
+            if (!db) {
+                const auto c_vfs_name = vfs_name.empty() ? nullptr : vfs_name.c_str();
+                sqlite3_open_v2(path.c_str(), &db, flags, c_vfs_name);
+                m_dbs[path] = db;
+            }
+
+            return std::make_shared<sqlite::database<T>>(db);
+        }
 
     };
 

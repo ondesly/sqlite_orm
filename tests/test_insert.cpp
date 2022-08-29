@@ -11,16 +11,13 @@
 using namespace sqlite;
 
 int main() {
-    sqlite3 *sqlite_db = nullptr;
-    sqlite3_open("test.db", &sqlite_db);
-
     struct data {
         int id;
         int number;
         std::string text;
     };
 
-    auto db = sqlite::database<data>::create(sqlite_db);
+    auto db = sqlite::database<data>::open("test.db");
     db->set_fields({{&data::id,     "id"},
                     {&data::number, "number"},
                     {&data::text,   "text"}});

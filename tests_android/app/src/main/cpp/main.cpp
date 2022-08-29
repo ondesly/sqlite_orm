@@ -14,9 +14,6 @@ Java_com_ondesly_sqliteormtest_ExampleInstrumentedTest_read(
     auto asset_manager = AAssetManager_fromJava(env, assetManager);
     register_aasset_vfs(asset_manager);
 
-    sqlite3 *sqlite_db = nullptr;
-    sqlite3_open_v2("test.db", &sqlite_db, SQLITE_OPEN_READONLY, default_vfs_name);
-
     //
 
     struct data {
@@ -25,7 +22,7 @@ Java_com_ondesly_sqliteormtest_ExampleInstrumentedTest_read(
         std::string text;
     };
 
-    auto db = sqlite::database<data>::create(sqlite_db);
+    auto db = sqlite::database<data>::open_read_only("test.db", default_vfs_name);
     db->set_fields({{&data::id,     "id"},
                     {&data::number, "number"},
                     {&data::text,   "text"}});
