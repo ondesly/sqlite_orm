@@ -17,6 +17,7 @@ project(sqlite_orm
 ################
 
 include(FetchContent)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
 FetchContent_Declare(
         sqlite
@@ -26,6 +27,8 @@ FetchContent_Declare(
         GIT_PROGRESS TRUE)
 
 FetchContent_MakeAvailable(sqlite)
+
+find_package(sqlite REQUIRED)
 
 #########
 # Build #
