@@ -6,7 +6,7 @@
 //  Copyright © 2022 Dmitrii Torkhov. All rights reserved.
 //
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 
 #include <android/asset_manager.h>
 #include <sqlite3.h>
