@@ -57,6 +57,9 @@ namespace sqlite {
     static const command OR = AND + 1;
     static const command IN = OR + 1;
     static const command ON = IN + 1;
+    static const command EQUALS = ON + 1;
+    static const command NOT_EQUALS = EQUALS + 1;
+    static const command EMPTY_STRING = NOT_EQUALS + 1;
 
     template<class T>
     class database : public base_database<T> {
@@ -209,6 +212,15 @@ namespace sqlite {
                     break;
                 case sqlite::ON:
                     base::m_query << "ON ";
+                    break;
+                case sqlite::EQUALS:
+                    base::m_query << '=';
+                    break;
+                case sqlite::NOT_EQUALS:
+                    base::m_query << "!=";
+                    break;
+                case sqlite::EMPTY_STRING:
+                    base::m_query << "''";
                     break;
                 default:
                     break;

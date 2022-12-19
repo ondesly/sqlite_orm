@@ -23,3 +23,4 @@ endfunction()
 #
 
 add("test_insert")
+add("test_empty_string")
