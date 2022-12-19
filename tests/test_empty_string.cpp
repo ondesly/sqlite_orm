@@ -77,7 +77,7 @@ int main() {
     std::vector<std::shared_ptr<data>> not_empty_empty;
     *db >> not_empty_empty;
 
-    // CLean up
+    // Clean up
 
     *db << DELETE << FROM << table << ';';
 

@@ -205,6 +205,14 @@ namespace sqlite {
             return *this;
         }
 
+        database &operator<<(const std::vector<command> &v) {
+            for (auto command: v) {
+                operator<<(command);
+            }
+
+            return *this;
+        }
+
         // Values
 
         database &operator<<(const bool value) {

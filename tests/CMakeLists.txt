@@ -24,3 +24,4 @@ endfunction()
 
 add("test_insert")
 add("test_empty_string")
+add("test_multiple_commands")
