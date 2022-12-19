@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "base_database.h"
+#include "commands.h"
 #include "column.h"
 #include "sqlite3.h"
 
@@ -35,31 +36,6 @@ namespace sqlite {
     using lock = std::lock_guard<std::mutex>;
 
     //
-
-    typedef unsigned short command;
-
-    static const command NONE = 0;
-    static const command SELECT = NONE + 1;
-    static const command CREATE_TABLE_IF_NOT_EXISTS = SELECT + 1;
-    static const command CREATE_INDEX_IF_NOT_EXISTS = CREATE_TABLE_IF_NOT_EXISTS + 1;
-    static const command INSERT_OR_REPLACE_INTO = CREATE_INDEX_IF_NOT_EXISTS + 1;
-    static const command UPDATE = INSERT_OR_REPLACE_INTO + 1;
-    static const command DELETE = UPDATE + 1;
-    static const command SET = DELETE + 1;
-    static const command COUNT = SET + 1;
-    static const command FROM = COUNT + 1;
-    static const command WHERE = FROM + 1;
-    static const command ORDER_BY = WHERE + 1;
-    static const command ALL = ORDER_BY + 1;
-    static const command VALUES = ALL + 1;
-    static const command BETWEEN = VALUES + 1;
-    static const command AND = BETWEEN + 1;
-    static const command OR = AND + 1;
-    static const command IN = OR + 1;
-    static const command ON = IN + 1;
-    static const command EQUALS = ON + 1;
-    static const command NOT_EQUALS = EQUALS + 1;
-    static const command EMPTY_STRING = NOT_EQUALS + 1;
 
     template<class T>
     class database : public base_database<T> {
