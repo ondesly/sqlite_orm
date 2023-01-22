@@ -22,7 +22,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 FetchContent_Declare(
         sqlite
         GIT_REPOSITORY https://github.com/azadkuh/sqlite-amalgamation.git
-        GIT_TAG v3.8.10.2
+        GIT_TAG 3.38.2
         GIT_SHALLOW TRUE
         GIT_PROGRESS TRUE)
 
