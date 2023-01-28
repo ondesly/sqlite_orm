@@ -33,6 +33,28 @@ namespace sqlite {
 
     };
 
+    //
+
+    class db_cache {
+    public:
+
+        static sqlite3 *open_db(const std::string &path, int flags, const char *vfs) {
+            static std::unordered_map<std::string, sqlite3 *> dbs;
+
+            sqlite3 *db = dbs[path];
+
+            if (!db) {
+                sqlite3_open_v2(path.c_str(), &db, flags, vfs);
+                dbs[path] = db;
+            }
+
+            return db;
+        }
+
+    };
+
+    //
+
     using lock = std::lock_guard<std::mutex>;
 
     //
@@ -349,15 +371,8 @@ namespace sqlite {
 
         static std::shared_ptr<sqlite::database<T>>
         open(const std::string &path, int flags, const std::string &vfs_name) {
-            static std::unordered_map<std::string, sqlite3 *> m_dbs;
-
-            sqlite3 *db = m_dbs[path];
-            if (!db) {
-                const auto c_vfs_name = vfs_name.empty() ? nullptr : vfs_name.c_str();
-                sqlite3_open_v2(path.c_str(), &db, flags, c_vfs_name);
-                m_dbs[path] = db;
-            }
-
+            const auto c_vfs_name = vfs_name.empty() ? nullptr : vfs_name.c_str();
+            const auto db = db_cache::open_db(path, flags, c_vfs_name);
             return std::make_shared<sqlite::database<T>>(db);
         }
 
