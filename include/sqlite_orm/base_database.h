@@ -3,7 +3,7 @@
 //  sqlite_orm
 //
 //  Created by Dmitrii Torkhov <dmitriitorkhov@gmail.com> on 22.05.2019.
-//  Copyright © 2019-2022 Dmitrii Torkhov. All rights reserved.
+//  Copyright © 2019-2023 Dmitrii Torkhov. All rights reserved.
 //
 
 #pragma once
@@ -23,9 +23,7 @@ namespace sqlite {
     class base_database {
     public:
 
-        base_database(sqlite3 *const db) : m_db(db) {
-
-        }
+        explicit base_database(sqlite3 *const db) : m_db(db) {}
 
     public:
 
@@ -107,12 +105,12 @@ namespace sqlite {
             });
         }
 
-        int get(int T::* const pointer, sqlite3_stmt *const statement) {
+        int get(int T::* const pointer, sqlite3_stmt *statement) {
             const auto it = find(pointer);
             return sqlite3_column_int(statement, int(it - m_fields.begin()));
         }
 
-        std::string get(std::string T::* const pointer, sqlite3_stmt *const statement) {
+        std::string get(std::string T::* const pointer, sqlite3_stmt *statement) {
             const auto it = find(pointer);
             auto text = (char *) sqlite3_column_text(statement, int(it - m_fields.begin()));
 
@@ -123,7 +121,7 @@ namespace sqlite {
             }
         }
 
-        inline int convert(const long long l) {
+        inline int convert(long long l) {
             if (l >> 32 > 0) {
                 return int(l / 1000);
             } else {
@@ -131,7 +129,7 @@ namespace sqlite {
             }
         }
 
-        std::shared_ptr<T> make_object(sqlite3_stmt *const statement) {
+        std::shared_ptr<T> make_object(sqlite3_stmt *statement) {
             auto object = std::make_shared<T>();
 
             for (int i = 0; i < m_fields.size(); ++i) {
@@ -157,7 +155,7 @@ namespace sqlite {
             return object;
         }
 
-        void write_values(const std::shared_ptr<T> object) {
+        void write_values(const std::shared_ptr<T> &object) {
             for (size_t i = 1; i < m_fields.size(); ++i) {
                 const auto &f = m_fields[i];
 

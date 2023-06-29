@@ -3,7 +3,7 @@
 //  sqlite_orm
 //
 //  Created by Dmitrii Torkhov <dmitriitorkhov@gmail.com> on 21.05.2019.
-//  Copyright © 2019-2022 Dmitrii Torkhov. All rights reserved.
+//  Copyright © 2019-2023 Dmitrii Torkhov. All rights reserved.
 //
 
 #pragma once
@@ -78,9 +78,7 @@ namespace sqlite {
 
     public:
 
-        explicit database(sqlite3 *const db) : base(db) {
-
-        }
+        explicit database(sqlite3 *db) : base(db) {}
 
     public:
 
@@ -108,7 +106,7 @@ namespace sqlite {
 
         // Char
 
-        database &operator<<(const char c) {
+        database &operator<<(char c) {
             base::m_query << c;
 
             if (c == ';') {
@@ -146,7 +144,7 @@ namespace sqlite {
 
         // Commands
 
-        database &operator<<(const command c) {
+        database &operator<<(command c) {
             switch (c) {
                 case sqlite::SELECT:
                     base::m_query << "SELECT ";
@@ -237,19 +235,19 @@ namespace sqlite {
 
         // Values
 
-        database &operator<<(const bool value) {
+        database &operator<<(bool value) {
             base::m_query << (value ? 1 : 0) << " ";
 
             return *this;
         }
 
-        database &operator<<(const int value) {
+        database &operator<<(int value) {
             base::m_query << value << " ";
 
             return *this;
         }
 
-        database &operator<<(const std::shared_ptr<T> object) {
+        database &operator<<(const std::shared_ptr<T> &object) {
             base::write_values(object);
 
             return *this;
