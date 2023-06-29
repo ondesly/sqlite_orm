@@ -3,7 +3,7 @@
 #  sqlite_orm
 #
 #  Created by Dmitrii Torkhov <dmitriitorkhov@gmail.com> on 27.08.2022.
-#  Copyright © 2022 Dmitrii Torkhov. All rights reserved.
+#  Copyright © 2022-2023 Dmitrii Torkhov. All rights reserved.
 #
 
 project(tests)
@@ -25,3 +25,4 @@ endfunction()
 add("test_insert")
 add("test_empty_string")
 add("test_multiple_commands")
+add("test_commands")
