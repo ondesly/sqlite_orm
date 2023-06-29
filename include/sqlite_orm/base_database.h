@@ -63,6 +63,10 @@ namespace sqlite {
             }
         }
 
+        std::string get_query() const {
+            return m_query.str();
+        }
+
     protected:
 
         sqlite3 *m_db;
