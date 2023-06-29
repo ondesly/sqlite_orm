@@ -253,21 +253,8 @@ namespace sqlite {
             return *this;
         }
 
-        database &operator<<(const std::vector<int> &values) {
-            base::m_query << "(";
-            for (int i = 0; i < values.size(); ++i) {
-                base::m_query << values[i];
-
-                if (i != values.size() - 1) {
-                    base::m_query << ", ";
-                }
-            }
-            base::m_query << ") ";
-
-            return *this;
-        }
-
-        database &operator<<(const std::vector<std::string> &values) {
+        template<class V>
+        database &operator<<(const std::vector<V> &values) {
             base::m_query << "(";
             for (int i = 0; i < values.size(); ++i) {
                 base::m_query << values[i];
