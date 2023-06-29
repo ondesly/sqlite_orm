@@ -1,15 +1,15 @@
 #
 #  CMakeLists.txt
-#  sqlite
+#  sqlite_orm
 #
 #  Created by Dmitrii Torkhov <dmitriitorkhov@gmail.com> on 10.02.2022.
-#  Copyright © 2022 Dmitrii Torkhov. All rights reserved.
+#  Copyright © 2022-2023 Dmitrii Torkhov. All rights reserved.
 #
 
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(sqlite_orm
-        VERSION 1.3.1
+        VERSION 1.3.2
         LANGUAGES C CXX)
 
 ################
