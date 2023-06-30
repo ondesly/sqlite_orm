@@ -241,7 +241,13 @@ namespace sqlite {
             return *this;
         }
 
-        database &operator<<(int value) {
+        database &operator<<(int32_t value) {
+            base::m_query << value << " ";
+
+            return *this;
+        }
+
+        database &operator<<(uint32_t value) {
             base::m_query << value << " ";
 
             return *this;

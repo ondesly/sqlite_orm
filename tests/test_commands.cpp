@@ -27,6 +27,8 @@ namespace {
         const int int_1 = 1;
         const int int_2 = 2;
 
+        const uint8_t uint8_1 = 1;
+
         const uint32_t uint32_1 = 1;
         const uint32_t uint32_2 = 2;
 
@@ -125,6 +127,22 @@ int main() {
     {
         auto db = create_db();
         *db << sample::int_1;
+        assert(db->get_query() == query::integer);
+    }
+
+    // Uint8
+
+    {
+        auto db = create_db();
+        *db << sample::uint8_1;
+        assert(db->get_query() == query::integer);
+    }
+
+    // Uint32
+
+    {
+        auto db = create_db();
+        *db << sample::uint32_1;
         assert(db->get_query() == query::integer);
     }
 
