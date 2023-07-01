@@ -28,6 +28,7 @@ namespace {
         const int int_2 = 2;
 
         const uint8_t uint8_1 = 1;
+        const uint8_t uint8_2 = 2;
 
         const uint32_t uint32_1 = 1;
         const uint32_t uint32_2 = 2;
@@ -167,7 +168,14 @@ int main() {
     {
         auto db = create_db();
         *db << std::vector<int>{sample::int_1, sample::int_2};
-        const auto q = db->get_query();
+        assert(db->get_query() == query::vector_of_int);
+    }
+
+    // Vector of uint8
+
+    {
+        auto db = create_db();
+        *db << std::vector<uint8_t>{sample::uint8_1, sample::uint8_2};
         assert(db->get_query() == query::vector_of_int);
     }
 

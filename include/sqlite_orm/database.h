@@ -274,6 +274,20 @@ namespace sqlite {
             return *this;
         }
 
+        database &operator<<(const std::vector<uint8_t> &values) {
+            base::m_query << "(";
+            for (int i = 0; i < values.size(); ++i) {
+                base::m_query << std::to_string(values[i]);
+
+                if (i != values.size() - 1) {
+                    base::m_query << ", ";
+                }
+            }
+            base::m_query << ") ";
+
+            return *this;
+        }
+
         database &operator<<(const std::unordered_set<int> &values) {
             base::m_query << "(";
             size_t counter = 0;
