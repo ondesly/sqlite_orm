@@ -159,7 +159,6 @@ int main() {
     {
         auto db = create_db();
         *db << std::vector<std::string>{sample::chars_1, sample::chars_2};
-        auto q = db->get_query();
         assert(db->get_query() == query::vector_of_string);
     }
 
@@ -177,7 +176,6 @@ int main() {
     {
         auto db = create_db();
         *db << std::vector<uint32_t>{sample::uint32_1, sample::uint32_2};
-        const auto q = db->get_query();
         assert(db->get_query() == query::vector_of_int);
     }
 
