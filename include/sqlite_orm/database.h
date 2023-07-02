@@ -321,7 +321,8 @@ namespace sqlite {
 
         // Getters
 
-        void operator>>(int &value) {
+        template<class V>
+        void operator>>(V &value) {
             base::iterate([&](sqlite3_stmt *const statement) {
                 value = sqlite3_column_int(statement, 0);
             });
@@ -330,41 +331,54 @@ namespace sqlite {
         void operator>>(std::unordered_map<int, std::shared_ptr<T>> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
                 const auto key = base::get(base::m_int_pointer, statement);
-                container[key] = base::make_object(statement);
+                container.emplace(key, base::make_object(statement));
             });
         }
 
         void operator>>(std::unordered_map<std::string, std::shared_ptr<T>> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
                 const auto key = base::get(base::m_string_pointer, statement);
-                container[key] = base::make_object(statement);
+                container.emplace(key, base::make_object(statement));
             });
         }
 
         void operator>>(std::unordered_set<int> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
-                container.insert(sqlite3_column_int(statement, 0));
+                const auto value = base::get(base::m_int_pointer, statement);
+                container.emplace(value);
             });
         }
 
         void operator>>(std::unordered_set<std::string> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
-                auto text = (char *) sqlite3_column_text(statement, 0);
-                if (text) {
-                    container.insert(text);
-                }
+                const auto value = base::get(base::m_string_pointer, statement);
+                container.emplace(value);
+            });
+        }
+
+        void operator>>(std::unordered_set<std::shared_ptr<T>> &container) {
+            base::iterate([&](sqlite3_stmt *const statement) {
+                container.emplace(base::make_object(statement));
             });
         }
 
         void operator>>(std::vector<int> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
-                container.push_back(sqlite3_column_int(statement, 0));
+                const auto value = base::get(base::m_int_pointer, statement);
+                container.emplace_back(value);
+            });
+        }
+
+        void operator>>(std::vector<std::string> &container) {
+            base::iterate([&](sqlite3_stmt *const statement) {
+                const auto value = base::get(base::m_string_pointer, statement);
+                container.emplace_back(value);
             });
         }
 
         void operator>>(std::vector<std::shared_ptr<T>> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
-                container.push_back(base::make_object(statement));
+                container.emplace_back(base::make_object(statement));
             });
         }
 
