@@ -88,6 +88,10 @@ namespace sqlite {
             return mutex_holder::get();
         }
 
+        operator std::lock_guard<std::mutex>() {
+            return std::lock_guard<std::mutex>(mutex_holder::get());
+        }
+
         // Pointers
 
         database &operator<<(int T::* const pointer) {
