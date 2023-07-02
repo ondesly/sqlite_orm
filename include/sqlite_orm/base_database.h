@@ -93,19 +93,19 @@ namespace sqlite {
             m_query.str("");
         }
 
-        auto find(int T::* const pointer) {
+        auto find(int T::* const pointer) const {
             return std::find_if(m_fields.begin(), m_fields.end(), [pointer](const column<T> &a) {
                 return a.equals(pointer);
             });
         }
 
-        auto find(std::string T::* const pointer) {
+        auto find(std::string T::* const pointer) const {
             return std::find_if(m_fields.begin(), m_fields.end(), [pointer](const column<T> &a) {
                 return a.equals(pointer);
             });
         }
 
-        int find_column(int T::* const pointer) {
+        int find_column(int T::* const pointer) const {
             const auto it = find(pointer);
             if (it == m_fields.end()) {
                 return 0;
@@ -114,7 +114,7 @@ namespace sqlite {
             }
         }
 
-        int find_column(std::string T::* const pointer) {
+        int find_column(std::string T::* const pointer) const {
             const auto it = find(pointer);
             if (it == m_fields.end()) {
                 return 0;
@@ -123,12 +123,12 @@ namespace sqlite {
             }
         }
 
-        int get(int T::* const pointer, sqlite3_stmt *statement) {
+        int get(int T::* const pointer, sqlite3_stmt *statement) const {
             const auto col = find_column(pointer);
             return sqlite3_column_int(statement, col);
         }
 
-        std::string get(std::string T::* const pointer, sqlite3_stmt *statement) {
+        std::string get(std::string T::* const pointer, sqlite3_stmt *statement) const {
             const auto col = find_column(pointer);
             const auto text = sqlite3_column_text(statement, col);
 
@@ -139,7 +139,7 @@ namespace sqlite {
             }
         }
 
-        inline int convert(long long l) {
+        constexpr inline int convert(long long l) const {
             if (l >> 32 > 0) {
                 return int(l / 1000);
             } else {
@@ -147,7 +147,7 @@ namespace sqlite {
             }
         }
 
-        std::shared_ptr<T> make_object(sqlite3_stmt *statement) {
+        std::shared_ptr<T> make_object(sqlite3_stmt *statement) const {
             auto object = std::make_shared<T>();
 
             for (int i = 0; i < m_fields.size(); ++i) {
