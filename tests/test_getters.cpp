@@ -78,6 +78,16 @@ int main() {
         assert(count == constant::count);
     }
 
+    // Int, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << COUNT << FROM << constant::table;
+
+        const int count = *db;
+        assert(count == constant::count);
+    }
+
     // Size_t
 
     {
@@ -86,6 +96,16 @@ int main() {
 
         size_t count;
         *db >> count;
+        assert(count == constant::count);
+    }
+
+    // Size_t, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << COUNT << FROM << constant::table;
+
+        const size_t count = *db;
         assert(count == constant::count);
     }
 
@@ -101,6 +121,16 @@ int main() {
         assert(records.begin()->first == records.begin()->second->id);
     }
 
+    // Map of int and record, default field, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        const std::unordered_map<int, std::shared_ptr<data>> records = *db;
+        assert(records.size() == constant::count);
+        assert(records.begin()->first == records.begin()->second->id);
+    }
 
     // Map of int and record, specific field
 
@@ -138,6 +168,17 @@ int main() {
         assert(records.begin()->first == std::to_string(records.begin()->second->id));
     }
 
+    // Map of string and record, default field, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        const std::unordered_map<std::string, std::shared_ptr<data>> records = *db;
+        assert(records.size() == constant::count);
+        assert(records.begin()->first == std::to_string(records.begin()->second->id));
+    }
+
     // Map of string and record, specific field
 
     {
@@ -158,6 +199,17 @@ int main() {
 
         std::unordered_set<int> records;
         *db >> records;
+        assert(records.size() == constant::count);
+        assert(*records.begin() == sample::id_1 || *records.begin() == sample::id_2);
+    }
+
+    // Set of int, default field, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        const std::unordered_set<int> records = *db;
         assert(records.size() == constant::count);
         assert(*records.begin() == sample::id_1 || *records.begin() == sample::id_2);
     }
@@ -198,6 +250,17 @@ int main() {
         assert(*records.begin() == std::to_string(sample::id_1) || *records.begin() == std::to_string(sample::id_2));
     }
 
+    // Set of string, default field, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        const std::unordered_set<std::string> records = *db;
+        assert(records.size() == constant::count);
+        assert(*records.begin() == std::to_string(sample::id_1) || *records.begin() == std::to_string(sample::id_2));
+    }
+
     // Set of string, specific field
 
     {
@@ -222,6 +285,17 @@ int main() {
         assert((*records.begin())->data == sample::data_1 || (*records.begin())->data == sample::data_2);
     }
 
+    // Set of object, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        const std::unordered_set<std::shared_ptr<data>> records = *db;
+        assert(records.size() == constant::count);
+        assert((*records.begin())->data == sample::data_1 || (*records.begin())->data == sample::data_2);
+    }
+
     // Vector of int, default field
 
     {
@@ -230,6 +304,17 @@ int main() {
 
         std::vector<int> records;
         *db >> records;
+        assert(records.size() == constant::count);
+        assert(*records.begin() == sample::id_1);
+    }
+
+    // Vector of int, default field, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        const std::vector<int> records = *db;
         assert(records.size() == constant::count);
         assert(*records.begin() == sample::id_1);
     }
@@ -270,6 +355,17 @@ int main() {
         assert(*records.begin() == std::to_string(sample::id_1));
     }
 
+    // Vector of string, default field, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        const std::vector<std::string> records = *db;
+        assert(records.size() == constant::count);
+        assert(*records.begin() == std::to_string(sample::id_1));
+    }
+
     // Vector of string, specific field
 
     {
@@ -290,6 +386,17 @@ int main() {
 
         std::vector<std::shared_ptr<data>> records;
         *db >> records;
+        assert(records.size() == constant::count);
+        assert((*records.begin())->data == sample::data_1);
+    }
+
+    // Vector of object, assignment
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        const std::vector<std::shared_ptr<data>> records = *db;
         assert(records.size() == constant::count);
         assert((*records.begin())->data == sample::data_1);
     }
