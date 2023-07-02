@@ -105,17 +105,35 @@ namespace sqlite {
             });
         }
 
-        int get(int T::* const pointer, sqlite3_stmt *statement) {
+        int find_column(int T::* const pointer) {
             const auto it = find(pointer);
-            return sqlite3_column_int(statement, int(it - m_fields.begin()));
+            if (it == m_fields.end()) {
+                return 0;
+            } else {
+                return it - m_fields.begin();
+            }
+        }
+
+        int find_column(std::string T::* const pointer) {
+            const auto it = find(pointer);
+            if (it == m_fields.end()) {
+                return 0;
+            } else {
+                return it - m_fields.begin();
+            }
+        }
+
+        int get(int T::* const pointer, sqlite3_stmt *statement) {
+            const auto col = find_column(pointer);
+            return sqlite3_column_int(statement, col);
         }
 
         std::string get(std::string T::* const pointer, sqlite3_stmt *statement) {
-            const auto it = find(pointer);
-            auto text = (char *) sqlite3_column_text(statement, int(it - m_fields.begin()));
+            const auto col = find_column(pointer);
+            const auto text = sqlite3_column_text(statement, col);
 
             if (text) {
-                return text;
+                return reinterpret_cast<const std::string::value_type *>(text);
             } else {
                 return "";
             }
