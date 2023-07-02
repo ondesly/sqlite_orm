@@ -114,6 +114,18 @@ int main() {
         assert(records.begin()->first == records.begin()->second->number);
     }
 
+    // Map of uint and record, specific field
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        std::unordered_map<uint32_t, std::shared_ptr<data>> records;
+        *db >> &data::number >> records;
+        assert(records.size() == constant::count);
+        assert(records.begin()->first == records.begin()->second->number);
+    }
+
     // Map of string and record, default field
 
     {
@@ -157,6 +169,18 @@ int main() {
         *db << SELECT << ALL << FROM << constant::table;
 
         std::unordered_set<int> records;
+        *db >> &data::number >> records;
+        assert(records.size() == constant::count);
+        assert(*records.begin() == sample::number_1 || *records.begin() == sample::number_2);
+    }
+
+    // Set of uint, specific field
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        std::unordered_set<uint32_t> records;
         *db >> &data::number >> records;
         assert(records.size() == constant::count);
         assert(*records.begin() == sample::number_1 || *records.begin() == sample::number_2);
@@ -217,6 +241,18 @@ int main() {
         *db << SELECT << ALL << FROM << constant::table;
 
         std::vector<int> records;
+        *db >> &data::number >> records;
+        assert(records.size() == constant::count);
+        assert(*records.begin() == sample::number_1);
+    }
+
+    // Vector of uint, specific field
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table;
+
+        std::vector<uint32_t> records;
         *db >> &data::number >> records;
         assert(records.size() == constant::count);
         assert(*records.begin() == sample::number_1);

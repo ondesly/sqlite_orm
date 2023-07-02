@@ -328,7 +328,8 @@ namespace sqlite {
             });
         }
 
-        void operator>>(std::unordered_map<int, std::shared_ptr<T>> &container) {
+        template<class V>
+        void operator>>(std::unordered_map<V, std::shared_ptr<T>> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
                 const auto key = base::get(base::m_int_pointer, statement);
                 container.emplace(key, base::make_object(statement));
@@ -342,7 +343,8 @@ namespace sqlite {
             });
         }
 
-        void operator>>(std::unordered_set<int> &container) {
+        template<class V>
+        void operator>>(std::unordered_set<V> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
                 const auto value = base::get(base::m_int_pointer, statement);
                 container.emplace(value);
@@ -362,7 +364,8 @@ namespace sqlite {
             });
         }
 
-        void operator>>(std::vector<int> &container) {
+        template<class V>
+        void operator>>(std::vector<V> &container) {
             base::iterate([&](sqlite3_stmt *const statement) {
                 const auto value = base::get(base::m_int_pointer, statement);
                 container.emplace_back(value);
