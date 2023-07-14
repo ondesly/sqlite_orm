@@ -34,5 +34,8 @@ namespace sqlite {
         const command EQUALS = ON + 1;
         const command NOT_EQUALS = EQUALS + 1;
         const command EMPTY_STRING = NOT_EQUALS + 1;
+        const command ASC = EMPTY_STRING + 1;
+        const command DESC = ASC + 1;
+        const command LIMIT = DESC + 1;
 
 }

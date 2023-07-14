@@ -222,6 +222,15 @@ namespace sqlite {
                 case sqlite::EMPTY_STRING:
                     base::m_query << "''";
                     break;
+                case sqlite::ASC:
+                    base::m_query << "ASC ";
+                    break;
+                case sqlite::DESC:
+                    base::m_query << "DESC ";
+                    break;
+                case sqlite::LIMIT:
+                    base::m_query << "LIMIT ";
+                    break;
                 default:
                     break;
             }

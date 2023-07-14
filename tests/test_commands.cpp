@@ -41,7 +41,7 @@ namespace {
         const char *data_3 = "data_3";
 
     }
-    
+
 }
 
 std::shared_ptr<sqlite::database<data>> create_db_with_data() {
@@ -77,6 +77,38 @@ int main() {
 
         const std::vector<std::shared_ptr<data>> records = *db;
         assert(records.size() == 3);
+    }
+
+    // ASC
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table << ORDER_BY << &data::number << ASC;
+
+        const std::vector<std::shared_ptr<data>> records = *db;
+        assert(records.size() == 3);
+        assert(records.front()->number == sample::number_1);
+    }
+
+    // DESC
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table << ORDER_BY << &data::number << DESC;
+
+        const std::vector<std::shared_ptr<data>> records = *db;
+        assert(records.size() == 3);
+        assert(records.front()->number == sample::number_3);
+    }
+
+    // LIMIT
+
+    {
+        auto db = create_db_with_data();
+        *db << SELECT << ALL << FROM << constant::table << LIMIT << 1;
+
+        const std::vector<std::shared_ptr<data>> records = *db;
+        assert(records.size() == 1);
     }
 
     return 0;
