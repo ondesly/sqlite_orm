@@ -1,5 +1,5 @@
 //
-//  test_commands.cpp
+//  test_input.cpp
 //  sqlite_orm
 //
 //  Created by Dmitrii Torkhov <dmitriitorkhov@gmail.com> on 29.06.2023.
