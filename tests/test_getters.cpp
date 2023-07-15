@@ -401,5 +401,25 @@ int main() {
         assert((*records.begin())->data == sample::data_1);
     }
 
+    // Different target fields
+
+    {
+        auto db = create_db_with_data();
+
+        *db << SELECT << ALL << FROM << constant::table;
+
+        std::vector<int> number_records;
+        *db >> &data::number >> number_records;
+        assert(number_records.front() == sample::number_1);
+
+        //
+
+        *db << SELECT << ALL << FROM << constant::table;
+
+        std::vector<int> id_records;
+        *db >> id_records;
+        assert(id_records.front() == sample::id_1);
+    }
+
     return 0;
 }

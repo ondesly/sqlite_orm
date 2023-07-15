@@ -90,7 +90,7 @@ namespace sqlite {
                 sqlite3_finalize(statement);
             }
 
-            m_query.str("");
+            clear();
         }
 
         auto find(int T::* const pointer) const {
@@ -197,7 +197,13 @@ namespace sqlite {
         void exec() {
             sqlite3_exec(m_db, m_query.str().c_str(), nullptr, nullptr, nullptr);
 
-            m_query.str("");
+            clear();
+        }
+
+        void clear() {
+            m_query.str({});
+            m_int_pointer = nullptr;
+            m_string_pointer = nullptr;
         }
 
     };
