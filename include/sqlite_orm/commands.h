@@ -3,39 +3,65 @@
 //  sqlite_orm
 //
 //  Created by Dmitrii Torkhov <dmitriitorkhov@gmail.com> on 19.12.2022.
-//  Copyright © 2019-2022 Dmitrii Torkhov. All rights reserved.
+//  Copyright © 2019-2023 Dmitrii Torkhov. All rights reserved.
 //
 
 #pragma once
 
 namespace sqlite {
 
-        using command = unsigned short;
+    enum class command {
+        NONE,
+        SELECT,
+        CREATE_TABLE_IF_NOT_EXISTS,
+        CREATE_INDEX_IF_NOT_EXISTS,
+        INSERT_OR_REPLACE_INTO,
+        UPDATE,
+        DELETE,
+        SET,
+        COUNT,
+        FROM,
+        WHERE,
+        ORDER_BY,
+        ALL,
+        VALUES,
+        BETWEEN,
+        AND,
+        OR,
+        IN,
+        ON,
+        EQUALS,
+        NOT_EQUALS,
+        EMPTY_STRING,
+        ASC,
+        DESC,
+        LIMIT
+    };
 
-        const command NONE = 0;
-        const command SELECT = NONE + 1;
-        const command CREATE_TABLE_IF_NOT_EXISTS = SELECT + 1;
-        const command CREATE_INDEX_IF_NOT_EXISTS = CREATE_TABLE_IF_NOT_EXISTS + 1;
-        const command INSERT_OR_REPLACE_INTO = CREATE_INDEX_IF_NOT_EXISTS + 1;
-        const command UPDATE = INSERT_OR_REPLACE_INTO + 1;
-        const command DELETE = UPDATE + 1;
-        const command SET = DELETE + 1;
-        const command COUNT = SET + 1;
-        const command FROM = COUNT + 1;
-        const command WHERE = FROM + 1;
-        const command ORDER_BY = WHERE + 1;
-        const command ALL = ORDER_BY + 1;
-        const command VALUES = ALL + 1;
-        const command BETWEEN = VALUES + 1;
-        const command AND = BETWEEN + 1;
-        const command OR = AND + 1;
-        const command IN = OR + 1;
-        const command ON = IN + 1;
-        const command EQUALS = ON + 1;
-        const command NOT_EQUALS = EQUALS + 1;
-        const command EMPTY_STRING = NOT_EQUALS + 1;
-        const command ASC = EMPTY_STRING + 1;
-        const command DESC = ASC + 1;
-        const command LIMIT = DESC + 1;
+    static constexpr auto NONE = command::NONE;
+    static constexpr auto SELECT = command::SELECT;
+    static constexpr auto CREATE_TABLE_IF_NOT_EXISTS = command::CREATE_TABLE_IF_NOT_EXISTS;
+    static constexpr auto CREATE_INDEX_IF_NOT_EXISTS = command::CREATE_INDEX_IF_NOT_EXISTS;
+    static constexpr auto INSERT_OR_REPLACE_INTO = command::INSERT_OR_REPLACE_INTO;
+    static constexpr auto UPDATE = command::UPDATE;
+    static constexpr auto DELETE = command::DELETE;
+    static constexpr auto SET = command::SET;
+    static constexpr auto COUNT = command::COUNT;
+    static constexpr auto FROM = command::FROM;
+    static constexpr auto WHERE = command::WHERE;
+    static constexpr auto ORDER_BY = command::ORDER_BY;
+    static constexpr auto ALL = command::ALL;
+    static constexpr auto VALUES = command::VALUES;
+    static constexpr auto BETWEEN = command::BETWEEN;
+    static constexpr auto AND = command::AND;
+    static constexpr auto OR = command::OR;
+    static constexpr auto IN = command::IN;
+    static constexpr auto ON = command::ON;
+    static constexpr auto EQUALS = command::EQUALS;
+    static constexpr auto NOT_EQUALS = command::NOT_EQUALS;
+    static constexpr auto EMPTY_STRING = command::EMPTY_STRING;
+    static constexpr auto ASC = command::ASC;
+    static constexpr auto DESC = command::DESC;
+    static constexpr auto LIMIT = command::LIMIT;
 
 }

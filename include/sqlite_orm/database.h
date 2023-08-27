@@ -115,18 +115,18 @@ namespace sqlite {
 
             if (c == ';') {
                 switch (m_active_command) {
-                    case CREATE_TABLE_IF_NOT_EXISTS:
-                    case CREATE_INDEX_IF_NOT_EXISTS:
-                    case INSERT_OR_REPLACE_INTO:
-                    case UPDATE:
-                    case DELETE:
+                    case command::CREATE_TABLE_IF_NOT_EXISTS:
+                    case command::CREATE_INDEX_IF_NOT_EXISTS:
+                    case command::INSERT_OR_REPLACE_INTO:
+                    case command::UPDATE:
+                    case command::DELETE:
                         base::exec();
                         break;
                     default:
                         break;
                 }
 
-                m_active_command = NONE;
+                m_active_command = command::NONE;
             }
 
             return *this;
@@ -150,85 +150,85 @@ namespace sqlite {
 
         database &operator<<(command c) {
             switch (c) {
-                case sqlite::SELECT:
+                case command::SELECT:
                     base::m_query << "SELECT ";
                     break;
-                case sqlite::CREATE_TABLE_IF_NOT_EXISTS:
+                case command::CREATE_TABLE_IF_NOT_EXISTS:
                     base::m_query << "CREATE TABLE IF NOT EXISTS ";
-                    m_active_command = CREATE_TABLE_IF_NOT_EXISTS;
+                    m_active_command = command::CREATE_TABLE_IF_NOT_EXISTS;
                     break;
-                case sqlite::CREATE_INDEX_IF_NOT_EXISTS:
+                case command::CREATE_INDEX_IF_NOT_EXISTS:
                     base::m_query << "CREATE INDEX IF NOT EXISTS ";
-                    m_active_command = CREATE_INDEX_IF_NOT_EXISTS;
+                    m_active_command = command::CREATE_INDEX_IF_NOT_EXISTS;
                     break;
-                case sqlite::INSERT_OR_REPLACE_INTO:
+                case command::INSERT_OR_REPLACE_INTO:
                     base::m_query << "INSERT OR REPLACE INTO ";
-                    m_active_command = INSERT_OR_REPLACE_INTO;
+                    m_active_command = command::INSERT_OR_REPLACE_INTO;
                     break;
-                case sqlite::UPDATE:
+                case command::UPDATE:
                     base::m_query << "UPDATE ";
-                    m_active_command = UPDATE;
+                    m_active_command = command::UPDATE;
                     break;
-                case sqlite::DELETE:
+                case command::DELETE:
                     base::m_query << "DELETE ";
-                    m_active_command = DELETE;
+                    m_active_command = command::DELETE;
                     break;
-                case sqlite::SET:
+                case command::SET:
                     base::m_query << "SET ";
                     break;
-                case sqlite::COUNT:
+                case command::COUNT:
                     base::m_query << "COUNT(*) ";
                     break;
-                case sqlite::FROM:
+                case command::FROM:
                     base::m_query << "FROM ";
                     break;
-                case sqlite::WHERE:
+                case command::WHERE:
                     base::m_query << "WHERE ";
                     break;
-                case sqlite::ORDER_BY:
+                case command::ORDER_BY:
                     base::m_query << "ORDER BY ";
                     break;
-                case sqlite::ALL:
-                    if (m_active_command == CREATE_TABLE_IF_NOT_EXISTS) {
+                case command::ALL:
+                    if (m_active_command == command::CREATE_TABLE_IF_NOT_EXISTS) {
                         base::m_query << base::m_all_fields_with_types << " ";
                     } else {
                         base::m_query << base::m_all_fields << " ";
                     }
                     break;
-                case sqlite::VALUES:
+                case command::VALUES:
                     base::m_query << "VALUES ";
                     break;
-                case sqlite::BETWEEN:
+                case command::BETWEEN:
                     base::m_query << "BETWEEN ";
                     break;
-                case sqlite::AND:
+                case command::AND:
                     base::m_query << "AND ";
                     break;
-                case sqlite::OR:
+                case command::OR:
                     base::m_query << "OR ";
                     break;
-                case sqlite::IN:
+                case command::IN:
                     base::m_query << "IN ";
                     break;
-                case sqlite::ON:
+                case command::ON:
                     base::m_query << "ON ";
                     break;
-                case sqlite::EQUALS:
+                case command::EQUALS:
                     base::m_query << '=';
                     break;
-                case sqlite::NOT_EQUALS:
+                case command::NOT_EQUALS:
                     base::m_query << "!=";
                     break;
-                case sqlite::EMPTY_STRING:
+                case command::EMPTY_STRING:
                     base::m_query << "''";
                     break;
-                case sqlite::ASC:
+                case command::ASC:
                     base::m_query << "ASC ";
                     break;
-                case sqlite::DESC:
+                case command::DESC:
                     base::m_query << "DESC ";
                     break;
-                case sqlite::LIMIT:
+                case command::LIMIT:
                     base::m_query << "LIMIT ";
                     break;
                 default:
@@ -458,7 +458,7 @@ namespace sqlite {
 
     private:
 
-        command m_active_command = NONE;
+        command m_active_command = command::NONE;
 
     private:
 
