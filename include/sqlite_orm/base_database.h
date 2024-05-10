@@ -9,6 +9,7 @@
 #pragma once
 
 #include <functional>
+#include <list>
 #include <memory>
 #include <string>
 #include <sstream>
@@ -65,6 +66,10 @@ namespace sqlite {
             return m_query.str();
         }
 
+        const std::list<std::string> &get_last_errors() const {
+            return m_errors;
+        }
+
     protected:
 
         sqlite3 *m_db;
@@ -77,6 +82,12 @@ namespace sqlite {
 
         int T::*m_int_pointer;
         std::string T::*m_string_pointer;
+
+    private:
+
+        static const size_t errors_max_count = 10;
+
+        std::list<std::string> m_errors;
 
     protected:
 
@@ -195,7 +206,15 @@ namespace sqlite {
         }
 
         void exec() {
-            sqlite3_exec(m_db, m_query.str().c_str(), nullptr, nullptr, nullptr);
+            char *error = nullptr;
+            sqlite3_exec(m_db, m_query.str().c_str(), nullptr, nullptr, &error);
+
+            if (error) {
+                m_errors.emplace_front(error);
+                if (m_errors.size() > errors_max_count) {
+                    m_errors.pop_back();
+                }
+            }
 
             clear();
         }
