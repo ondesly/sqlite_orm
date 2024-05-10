@@ -6,6 +6,7 @@
 //  Copyright © 2023 Dmitrii Torkhov. All rights reserved.
 //
 
+#include <cassert>
 #include <string>
 
 #include <sqlite_orm/database.h>
