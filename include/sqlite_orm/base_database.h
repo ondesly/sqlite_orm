@@ -33,6 +33,7 @@ namespace sqlite {
 
             //
 
+            m_all_fields.clear();
             for (size_t i = 0; i < m_fields.size(); ++i) {
                 const auto &f = m_fields[i];
                 m_all_fields += f.get_name();
@@ -43,6 +44,7 @@ namespace sqlite {
             //
 
             const auto &id = m_fields.front();
+            m_all_fields_with_types.clear();
             m_all_fields_with_types += id.get_name();
             m_all_fields_with_types += " integer primary key";
 
@@ -51,14 +53,17 @@ namespace sqlite {
                 m_all_fields_with_types += ", ";
                 m_all_fields_with_types += f.get_name();
 
-                switch (f.get_type()) {
-                    case sqlite::column<T>::type::INT:
-                        m_all_fields_with_types += " integer";
-                        break;
-                    case sqlite::column<T>::type::STRING:
-                        m_all_fields_with_types += " text";
-                        break;
-                }
+                m_all_fields_with_types += ' ';
+                m_all_fields_with_types += to_string(f.get_type());
+            }
+        }
+
+        const char *to_string(typename column<T>::type type) {
+            switch (type) {
+                case sqlite::column<T>::type::INT:
+                    return "integer";
+                case sqlite::column<T>::type::STRING:
+                    return "text";
             }
         }
 
