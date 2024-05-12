@@ -214,6 +214,7 @@ namespace sqlite {
                 if (m_errors.size() > errors_max_count) {
                     m_errors.pop_back();
                 }
+                sqlite3_free(error);
             }
 
             clear();
