@@ -470,6 +470,29 @@ namespace sqlite {
             });
         }
 
+        void ensure_fields(const std::string &table) {
+            *this << PRAGMA << TABLE_INFO << '(' << table << ')' << ';';
+
+            std::unordered_set<std::string> current_fields;
+            const bool success = base::iterate([&](sqlite3_stmt *const statement) {
+                const auto column_name = sqlite3_column_text(statement, 1);
+                current_fields.emplace(reinterpret_cast<const std::string::value_type *>(column_name));
+            });
+            if (!success) {
+                return;
+            }
+
+            for (const auto &field: base::m_fields) {
+                if (!current_fields.count(field.get_name())) {
+                    add_field(table, field);
+                }
+            }
+        }
+
+        void add_field(const std::string &table, const sqlite::column<T> &field) {
+            *this << ALTER_TABLE << table << ADD_COLUMN << field.get_name() << base::to_string(field.get_type()) << ';';
+        }
+
     private:
 
         command m_active_command = command::NONE;
