@@ -96,17 +96,21 @@ namespace sqlite {
 
     protected:
 
-        void iterate(const std::function<void(sqlite3_stmt *)> &fn) {
+        bool iterate(const std::function<void(sqlite3_stmt *)> &fn) {
             sqlite3_stmt *statement;
-            if (sqlite3_prepare(m_db, m_query.str().c_str(), -1, &statement, nullptr) == SQLITE_OK) {
-                while (sqlite3_step(statement) == SQLITE_ROW) {
-                    fn(statement);
-                }
-
-                sqlite3_finalize(statement);
+            const auto status = sqlite3_prepare(m_db, m_query.str().c_str(), -1, &statement, nullptr);
+            if (status != SQLITE_OK) {
+                clear();
+                return false;
             }
 
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                fn(statement);
+            }
+            sqlite3_finalize(statement);
+
             clear();
+            return true;
         }
 
         auto find(int T::* const pointer) const {
