@@ -12,12 +12,16 @@ namespace sqlite {
 
     enum class command {
         NONE,
+        PRAGMA,
+        TABLE_INFO,
         SELECT,
         CREATE_TABLE_IF_NOT_EXISTS,
+        ALTER_TABLE,
         CREATE_INDEX_IF_NOT_EXISTS,
         INSERT_OR_REPLACE_INTO,
         UPDATE,
         DELETE,
+        ADD_COLUMN,
         SET,
         COUNT,
         FROM,
@@ -39,12 +43,16 @@ namespace sqlite {
     };
 
     static constexpr auto NONE = command::NONE;
+    static constexpr auto PRAGMA = command::PRAGMA;
+    static constexpr auto TABLE_INFO = command::TABLE_INFO;
     static constexpr auto SELECT = command::SELECT;
     static constexpr auto CREATE_TABLE_IF_NOT_EXISTS = command::CREATE_TABLE_IF_NOT_EXISTS;
+    static constexpr auto ALTER_TABLE = command::ALTER_TABLE;
     static constexpr auto CREATE_INDEX_IF_NOT_EXISTS = command::CREATE_INDEX_IF_NOT_EXISTS;
     static constexpr auto INSERT_OR_REPLACE_INTO = command::INSERT_OR_REPLACE_INTO;
     static constexpr auto UPDATE = command::UPDATE;
     static constexpr auto DELETE = command::DELETE;
+    static constexpr auto ADD_COLUMN = command::ADD_COLUMN;
     static constexpr auto SET = command::SET;
     static constexpr auto COUNT = command::COUNT;
     static constexpr auto FROM = command::FROM;

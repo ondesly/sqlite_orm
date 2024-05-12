@@ -116,6 +116,7 @@ namespace sqlite {
             if (c == ';') {
                 switch (m_active_command) {
                     case command::CREATE_TABLE_IF_NOT_EXISTS:
+                    case command::ALTER_TABLE:
                     case command::CREATE_INDEX_IF_NOT_EXISTS:
                     case command::INSERT_OR_REPLACE_INTO:
                     case command::UPDATE:
@@ -150,12 +151,22 @@ namespace sqlite {
 
         database &operator<<(command c) {
             switch (c) {
+                case command::PRAGMA:
+                    base::m_query << "PRAGMA ";
+                    break;
+                case command::TABLE_INFO:
+                    base::m_query << "table_info ";
+                    break;
                 case command::SELECT:
                     base::m_query << "SELECT ";
                     break;
                 case command::CREATE_TABLE_IF_NOT_EXISTS:
                     base::m_query << "CREATE TABLE IF NOT EXISTS ";
                     m_active_command = command::CREATE_TABLE_IF_NOT_EXISTS;
+                    break;
+                case command::ALTER_TABLE:
+                    base::m_query << "ALTER TABLE ";
+                    m_active_command = command::ALTER_TABLE;
                     break;
                 case command::CREATE_INDEX_IF_NOT_EXISTS:
                     base::m_query << "CREATE INDEX IF NOT EXISTS ";
@@ -172,6 +183,9 @@ namespace sqlite {
                 case command::DELETE:
                     base::m_query << "DELETE ";
                     m_active_command = command::DELETE;
+                    break;
+                case command::ADD_COLUMN:
+                    base::m_query << "ADD COLUMN ";
                     break;
                 case command::SET:
                     base::m_query << "SET ";
