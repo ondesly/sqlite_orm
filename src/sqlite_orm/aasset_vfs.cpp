@@ -243,10 +243,6 @@ namespace sqlite {
             return SQLITE_ERROR;
         }
 
-        if (aasset_vfs.asset_manager == asset_manager && strcmp(aasset_vfs.name, name) == 0) {
-            return SQLITE_OK;
-        }
-
         if (aasset_vfs.asset_manager) {
             sqlite3_vfs_unregister(&aasset_vfs.vfs);
         }
