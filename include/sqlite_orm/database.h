@@ -39,17 +39,27 @@ namespace sqlite {
     public:
 
         static sqlite3 *open_db(const std::string &path, int flags, const char *vfs) {
-            static std::unordered_map<std::string, sqlite3 *> dbs;
-
-            sqlite3 *db = dbs[path];
+            sqlite3 *db = s_cache[path];
 
             if (!db) {
                 sqlite3_open_v2(path.c_str(), &db, flags, vfs);
-                dbs[path] = db;
+                s_cache[path] = db;
             }
 
             return db;
         }
+
+        static void clear() {
+            for (const auto &[path, db] : s_cache) {
+                if (db) {
+                    sqlite3_close(db);
+                }
+            }
+            s_cache.clear();
+        }
+
+    private:
+        static inline std::unordered_map<std::string, sqlite3 *> s_cache;
 
     };
 
@@ -74,6 +84,10 @@ namespace sqlite {
         static std::shared_ptr<sqlite::database<T>>
         open(const std::string &path, const std::string &vfs_name = {}) {
             return open(path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, vfs_name);
+        }
+
+        static void clear_cache() {
+            db_cache::clear();
         }
 
     public:
