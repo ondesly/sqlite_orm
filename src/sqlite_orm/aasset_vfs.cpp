@@ -6,6 +6,8 @@
 //  Copyright © 2022 Dmitrii Torkhov. All rights reserved.
 //
 
+void sqlite_orm_anchor_symbol() {}
+
 #ifdef __ANDROID__
 
 #include <android/asset_manager.h>
