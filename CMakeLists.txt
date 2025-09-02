@@ -20,15 +20,13 @@ include(FetchContent)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
 FetchContent_Declare(
-        sqlite
-        GIT_REPOSITORY https://github.com/azadkuh/sqlite-amalgamation.git
-        GIT_TAG 3.38.2
+        sqlite3
+        GIT_REPOSITORY https://github.com/ondesly/sqlite3.git
+        GIT_TAG v3.50.4
         GIT_SHALLOW TRUE
         GIT_PROGRESS TRUE)
 
-FetchContent_MakeAvailable(sqlite)
-
-find_package(sqlite REQUIRED)
+FetchContent_MakeAvailable(sqlite3)
 
 #########
 # Build #
